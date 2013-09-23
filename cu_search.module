@@ -1,0 +1,160 @@
+<?php
+/**
+ * @file
+ * Code for the CU Search custom module
+ */
+
+/**
+ * Implements hook_init()
+ *
+ */
+function cu_search_init() {
+  if (current_path() == "search") {
+    if (variable_get('cu_search_google_key')) {
+      drupal_add_js(array('cu_search' => array('cu_search_google_key' => variable_get('cu_search_google_key'))), 'setting');
+      drupal_add_js(drupal_get_path('module','cu_search') . '/cu_search.js');
+    }
+  }
+}
+
+/**
+ * Implements hook_permission()
+ */
+function cu_search_permission() {
+  return array(
+    'administer cu search' => array(
+      'title' => t('Administer CU Search'),
+      'description' => t('Set the Google Search Engine key for the search functionality your site.'),
+    ),
+  );
+}
+
+/**
+* Implements hook_menu().
+*/
+function cu_search_menu() {
+  $items = array(); 
+  $items['admin/config/system/cu_search'] = array(
+    'title' => t('CU Search Settings'),
+    'description' => t('Configure Google CSE Integration'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cu_search_admin'),
+    'file' => 'includes/cu_search.admin.inc',
+    'access arguments' => array('administer cu search'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['search'] = array(
+    'page callback' => 'cu_search_results_view',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+* Implements hook_block_info().
+*/
+function cu_search_block_info($delta = '') {
+  $blocks['cu_search'] = array(
+    'info' => 'Cornell Search'
+  );
+  
+  return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+function cu_search_block_view($delta = '') {
+  $block = array();
+
+  if (!variable_get('cu_search_google_key')) {
+    return $block;
+  }
+
+  $block['content'] = '<div id="search-form">' . drupal_render(drupal_get_form('cu_search_form')) . '</div>';
+  
+  return $block;
+}
+
+/**
+ *  Create the search form
+ */
+function cu_search_form($form, &$form_state) {
+
+  $form['search_input'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => array('search-input'),
+    ),
+  );
+
+  $form['search_input']['s'] = array(
+    '#title' => t('SEARCH:'),
+    '#type' => 'textfield',
+    '#size' => 20,
+    '#attributes' => array(
+      'id' => 'search-form-query'),
+    '#default_value' => cu_search_populate_default_value($form_state),
+  );
+
+  $form['search_input']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'go',
+    '#name' => '',
+    '#attributes' => array('id' => 'search-form-submit'),
+  );
+
+  $form['search_filters'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => array('search-filters'),
+    ),
+  );
+
+  $short_name = (variable_get('cu_search_short_name'))
+    ? variable_get('cu_search_short_name')
+    : 'This site';
+
+  $form['search_filters']['search_site'] = array(
+    '#type' => 'radios',
+    '#options' => array($short_name => $short_name, 'Cornell' => t('Cornell')),
+    '#default_value' => $short_name,
+  );
+
+  $form['search_filters']['more_options'] = array(
+    '#markup' => '<a href="http://www.cornell.edu/search/">more options</a>',
+  );
+
+  $form['#action'] = url('search');
+  $form['#method'] = 'get';
+  $form['#pre_render'][] = 'cu_search_form_modify';
+
+  return $form;
+}
+
+/**
+  *  Set the default value after searching
+  */
+function cu_search_populate_default_value($form_state) {
+  $search_value = null;
+  if(isset($_REQUEST['s'])){
+    $search_value = $_REQUEST['s'];
+  }
+
+  return $search_value;
+}
+
+function cu_search_form_modify($form){
+  unset($form['form_token']);
+  unset($form['form_build_id']);
+  unset($form['form_id']);
+  return $form;
+}
+
+function cu_search_results_view() {
+  $content = '<gcse:search resultsUrl="/search" queryParameterName="s">Please make sure javascript is enabled to see the search results.</gcse:searchresults-only>';
+
+  return $content;
+}

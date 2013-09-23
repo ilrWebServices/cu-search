@@ -1,0 +1,186 @@
+/*  
+  Search Form
+  -------------------------
+  The following rules control the appearance of the search form interface. 
+  The form is displayed in the Cornell banner, and it is aligned with the 
+  right edge of the page. The search form should appear on every page 
+  of a site. 
+*/
+header {
+  position: relative;
+}
+
+div.region-header {
+  position: absolute;
+  top: 18px;
+  right: 0;
+  }
+
+#search-form .form-item {
+  display: inline-block;
+  margin: 0;
+}
+
+#search-form.search-45 {
+  top: 12px;  
+}
+  
+#search-form form {
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  }
+  
+#search-input label {
+  color: #333;
+  display: inline;
+  font-weight: normal;
+  }
+
+#search-form.banner-45 #search-input label {
+  position: absolute;
+  top: -1000em;
+  left: -1000em;
+  }
+
+#search-form label {
+  color: #333;
+  }
+  
+#search-form.search-45 label {
+  color: #333;
+  visibility:hidden;
+  }
+  
+#search-form-query {
+  padding: 3px;
+  width: 145px;
+  border: none;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 1.1em;
+  color: #333;
+  background-color: #F3F3F3;
+  vertical-align: middle;
+  -webkit-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  -moz-box-shadow: inset 2px 2px 2px 0px #dddddd;
+  box-shadow: inset 2px 2px 2px 0px #dddddd;
+  }
+  
+#search-form-submit {
+  padding: 0px 2px 3px 2px;;
+  border-top: 1px solid #E5E5E5;
+  border-left: 1px solid #E5E5E5;
+  border-right: 1px solid #B3B3B3;
+  border-bottom: 1px solid #B3B3B3;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 1.0em;
+  color: #333;
+  background: #F2F2F2;
+  vertical-align: middle;
+  border-radius: 0;
+  margin: 0;
+  }
+  
+#search-filters {
+  margin: 5px 0 0 0;
+  }
+
+#search-filters input {
+  vertical-align: middle;
+  margin: 0;
+  width: auto;
+  display: inline;
+  }
+
+#search-filters label {
+  vertical-align: middle;
+  margin: 0 10px 0 0;
+  }
+  
+#search-filters a {
+  position: relative;
+  display: inline;
+  color: #ffffff; 
+}
+
+#search-form a {
+  border-bottom: 1px solid #e5cfcf;
+  color:#B31B1B;
+  }
+
+#search-form a:hover {
+  border-bottom: 1px solid #ffffff;
+}
+
+div#edit-search-site {
+  display: inline;
+}
+
+/*  
+  Search Navigation 
+  -------------------------
+  The following rules control the appearance of the search navigation 
+  links. These links are displayed horizontally in the Cornell banner, 
+  and they are aligned with the right edge of the page. The baseline
+  of the links is aligned with the baseline of the unit name in the unit
+  signature. Search navigation links should appear on every page of a
+  site. 
+*/
+
+#search-navigation {
+  position: absolute;
+  top: 37px;
+  right: 0;
+  }
+  
+#search-navigation ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.1em;
+  }
+  
+#search-navigation li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  background: none;
+  }
+    
+#search-navigation a {
+  display: inline;
+  float: left;
+  padding: 5px 15px;
+  color:#B31B1B;
+  text-indent: 0;
+  position: relative;
+  }
+  
+#search-navigation a:hover {
+  background:#B31B1B;
+  color:#FFFFFF;
+  }
+
+/* Search results page */
+.gsc-wrapper table, .gsc-wrapper table tbody, .gsc-wrapper table tr, .gsc-wrapper table th, .gsc-wrapper table td, .cse .gsc-control-cse, .gsc-control-cse, .gsc-above-wrapper-area, .gsc-result-info-container {
+  margin: 0;
+  padding: 0 !important;
+  border: none !important;
+  line-height: 1.6;
+}
+
+.gs-bidi-start-align.gs-snippet {
+  font-size: 14px !important;
+}
+
+.gs-result .gs-title, .gs-result .gs-title *,
+.gs-webResult.gs-result a.gs-title, .gs-imageResult a.gs-title {
+  line-height: 1.2;
+  font-weight: bold;
+  text-decoration: none;
+  color: #b31b1b !important;
+}
+
+.gs-webResult.gs-result a.gs-title:hover {
+  text-decoration: underline;
+}
