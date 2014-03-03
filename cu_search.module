@@ -11,8 +11,16 @@
 function cu_search_init() {
   if (current_path() == "search") {
     if (variable_get('cu_search_google_key')) {
-      drupal_add_js(array('cu_search' => array('cu_search_google_key' => variable_get('cu_search_google_key'))), 'setting');
-      drupal_add_js(drupal_get_path('module','cu_search') . '/cu_search.js');
+      // Pass them along to the Cornell Site if that's their search
+      if (isset($_REQUEST['search_site']) && $_REQUEST['search_site'] == 'Cornell') {
+        drupal_goto('http://www.cornell.edu/search/', array(
+          'query' => array('q' => $_REQUEST['s']),
+        ));
+      }
+      else {
+        drupal_add_js(array('cu_search' => array('cu_search_google_key' => variable_get('cu_search_google_key'))), 'setting');
+        drupal_add_js(drupal_get_path('module','cu_search') . '/cu_search.js');
+      }
     }
   }
 }
@@ -33,7 +41,7 @@ function cu_search_permission() {
 * Implements hook_menu().
 */
 function cu_search_menu() {
-  $items = array(); 
+  $items = array();
   $items['admin/config/system/cu_search'] = array(
     'title' => t('CU Search Settings'),
     'description' => t('Configure Google CSE Integration'),
@@ -59,7 +67,7 @@ function cu_search_block_info($delta = '') {
   $blocks['cu_search'] = array(
     'info' => 'Cornell Search'
   );
-  
+
   return $blocks;
 }
 
@@ -74,7 +82,7 @@ function cu_search_block_view($delta = '') {
   }
 
   $block['content'] = '<div id="search-form">' . drupal_render(drupal_get_form('cu_search_form')) . '</div>';
-  
+
   return $block;
 }
 
